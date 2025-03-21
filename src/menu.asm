@@ -1762,6 +1762,9 @@ SleepMenuInput:
     lda Buttons
     and MenuCancelMask
     beq @exit
+    lda OldButtons
+    and MenuCancelMask
+    bne @exit
 
 @hidemenu:
     lda #0
@@ -2028,6 +2031,10 @@ CraftingInput:
     lda Buttons
     and MenuCancelMask
     beq @exit
+    lda OldButtons
+    and MenuCancelMask
+    bne @exit
+
 @revert:
     lda #1
     sta MustLoadSomething
@@ -2391,6 +2398,9 @@ InventoryInput:
     lda Buttons
     and MenuCancelMask
     beq @exit
+    lda OldButtons
+    and MenuCancelMask
+    bne @exit
 
     lda #0
     sta menuTileTransferRowIdx
@@ -3813,6 +3823,10 @@ DoRegularInput:
     lda Buttons
     and MenuCancelMask
     beq @exit
+
+    lda OldButtons
+    and MenuCancelMask
+    bne @exit
 
     lda #0
     sta menuTileTransferRowIdx
