@@ -1753,6 +1753,10 @@ SleepMenuInput:
     and MenuConfirmMask
     beq @Cancel_pressed
 
+    lda OldButtons
+    and MenuConfirmMask
+    bne @Cancel_pressed
+
     lda ItemMenuIndex
     cmp #1 ; yes
     bne @hidemenu
@@ -1980,6 +1984,10 @@ CraftingInput:
     lda Buttons
     and MenuConfirmMask
     beq @Cancel_pressed
+
+    lda OldButtons
+    and MenuConfirmMask
+    bne @Cancel_pressed
 
     lda MenuMaxItem
     sec
@@ -3872,6 +3880,10 @@ MenuInputUpDownCheck:
     and #BUTTON_DOWN_MASK
     beq @CheckUp
 
+    lda OldButtons
+    and #BUTTON_DOWN_MASK
+    bne @CheckUp
+
     lda MenuMaxItem
     sec
     sbc #1
@@ -3926,6 +3938,9 @@ MenuInputUpDownCheck:
     and #BUTTON_UP_MASK
     beq @exit
 
+    lda OldButtons
+    and #BUTTON_UP_MASK
+    bne @exit
 
     ldy #0
     lda (pointer), y

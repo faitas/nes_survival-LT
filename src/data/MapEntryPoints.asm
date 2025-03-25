@@ -219,7 +219,7 @@ MapSpawnPoint:
     .byte 0, <house_palette, >house_palette, 0, <Hut_npcs, >Hut_npcs, 0
     ;Exit point of second location
     .byte 128, 32, 0, OUTDOORS_LOC1_SCREEN_COUNT, LOCATION_TYPE_OUTDOORS, SONG_OUTSIDE_DAY, 0, 0, OUTDOORS_LOC1_SCREEN_COUNT - 1
-    .byte 0, <main_palette, >main_palette, 3, 0, 0, 3
+    .byte 0, <main_palette, >main_palette, 2, 0, 0, 3
     ;entrance to mine location(from path)
     .byte 119, 210, 11, OUTDOORS_LOC12_SCREEN_COUNT, LOCATION_TYPE_OUTDOORS, SONG_OUTSIDE_DAY, 5, 160, 2
     .byte 0, <main_palette, >main_palette, 2, 0, 0, 3
@@ -229,7 +229,7 @@ MapSpawnPoint:
     ;-----------------
     ;Exit point of third location
     .byte 120, 209, 0, OUTDOORS_LOC1_SCREEN_COUNT, LOCATION_TYPE_OUTDOORS, SONG_OUTSIDE_DAY, 0, 103, 1
-    .byte 2, <main_palette, >main_palette, 3, 0, 0, 1
+    .byte 2, <main_palette, >main_palette, 2, 0, 0, 1
     ;Second villager's house
     .byte 128, 136, 5, 1, LOCATION_TYPE_VILLAGER, SONG_INDOORS, 3, 0, 0
     .byte 0, <house_palette, >house_palette, 0, <villager2_npcs, >villager2_npcs, 0
@@ -240,7 +240,7 @@ MapSpawnPoint:
     ;-----------------
     ;Player's house exit
     .byte 72, 120, 0, OUTDOORS_LOC1_SCREEN_COUNT, LOCATION_TYPE_OUTDOORS, SONG_OUTSIDE_DAY, 0, 0, 0
-    .byte 0, <main_palette, >main_palette, 3, 0, 0, 0
+    .byte 0, <main_palette, >main_palette, 2, 0, 0, 0
     ;-----------------
     ;Second villager house's exit
     .byte 119, 151, 2, OUTDOORS_LOC3_SCREEN_COUNT, LOCATION_TYPE_OUTDOORS, SONG_OUTSIDE_DAY, 0, 128, 0
@@ -273,7 +273,7 @@ MapSpawnPoint:
     ;---------------------
     ;exit from granny's location to main
     .byte 127, 205, 0, OUTDOORS_LOC1_SCREEN_COUNT, LOCATION_TYPE_OUTDOORS, SONG_OUTSIDE_DAY, 0, 0, OUTDOORS_LOC1_SCREEN_COUNT - 1
-    .byte 0, <main_palette, >main_palette, 3, 0, 0, 3
+    .byte 0, <main_palette, >main_palette, 2, 0, 0, 3
     ;granny's house
     .byte 123, 148, 9, 1, LOCATION_TYPE_VILLAGER, SONG_INDOORS, 3, 0, 0
     .byte 0, <house_palette, >house_palette, 0, <villager3_npcs, >villager3_npcs, 0
