@@ -1811,19 +1811,19 @@ doNpcAI:
 @cont:
     jsr FetchNpcVars
 
-    txa
-    clc
-    adc #5 ; go to screen value
+
+    lda npcs_ram_screen_idx, y
     tax
 
     lda Npcs, x; screen
-    dex
-    dex
-    dex
-    dex
 
     jsr ScreenFilter
     bne @nextNpc
+
+    lda npcs_ram_lookup, y
+    tax
+    inx
+
 
 ;final filter (could be removed)
     lda CurrentMapSegmentIndex
@@ -1842,10 +1842,9 @@ doNpcAI:
 ;-----------end of filter----------
 
 @doAI:
-    inx ;x2
-    inx ;y
-    inx ;y2
-    inx ;screen
+    lda npcs_ram_screen_idx, y
+    tax
+
     sty TempPush
     jsr SingleNpcAI
     ldy TempPush
@@ -1912,6 +1911,7 @@ SingleNpcAI:
     clc
     adc #5 ;move to damage timer
     tax
+
     lda Npcs, x
     clc
     adc #1
@@ -1919,24 +1919,22 @@ SingleNpcAI:
     bcs @resetDmgBit
     sta Npcs, x
 
-    txa
-    sec
-    sbc #5 ; move to screen index
+
+    lda npcs_ram_screen_idx, y
     tax
 
     jmp @continue
 
 @resetDmgBit:
-    txa
-    sec
-    sbc #10 ; move to index
+
+    lda npcs_ram_lookup, y
     tax
+
     lda Npcs, x
     and #%11111011
     sta Npcs, x
-    txa
-    clc
-    adc #5
+
+    lda npcs_ram_screen_idx, y
     tax
 
 @continue:
@@ -3074,15 +3072,15 @@ SetDirectionForTimidNpc:
 ;---
 ;Calc npc X points
     dex ;npc x
-    lda Npcs, x; x
+    lda Npcs, x; x coord
     clc
     adc #8
     sta TempZ
-    inx ;x2
-    inx ;y
-    inx ;y2
-    inx ;screen
-    inx ;direction
+
+    txa
+    clc
+    adc #5 ; move to direction
+    tax
 
     lda PlayerX
     clc

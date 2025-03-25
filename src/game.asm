@@ -392,6 +392,24 @@ npcs_ram_lookup: ;npc position in ram by index, max 16 npcs
     .byte 154
     .byte 165
 
+npcs_ram_screen_idx:
+    .byte 5
+    .byte 16
+    .byte 27
+    .byte 38
+    .byte 49
+    .byte 60
+    .byte 71
+    .byte 82
+    .byte 93
+    .byte 104
+    .byte 115
+    .byte 126
+    .byte 137
+    .byte 148
+    .byte 159
+    .byte 170
+
 
 projectiles_ram_lookup: ; max 10 projectiles
     .byte 0
