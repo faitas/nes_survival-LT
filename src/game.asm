@@ -6447,6 +6447,11 @@ CheckStartButton:
     jmp @exit
 
 @checkSelect:
+
+    lda GameState
+    cmp #STATE_GAME
+    bne @exit
+
     lda Buttons
     and #BUTTON_SELECT_MASK
     bne @checkOldSelect
