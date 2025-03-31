@@ -2147,7 +2147,7 @@ UpdateModifiedTiles:
 
     lda ModifiedTileHalfFull
     bne @tryToCompleteTile
-    
+
     jsr StoreModTileToDraw
 
     jmp @nextTile
@@ -2196,6 +2196,7 @@ UpdateModifiedTiles:
 @nextTile:
     inc TempNpcCnt
     lda TempNpcCnt
+
     ldx LocationIndex
     cmp mod_tiles_count_by_location, x
     bcs @exit

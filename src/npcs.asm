@@ -1535,7 +1535,76 @@ UpdateSingleNpcSprites:
     and #%00000011
     sta TempNpcState
 
-    jsr CollectSingleNpcData
+
+    lda Npcs, y
+    and #%00000100
+    cmp #4 ; damaged ?
+    bne @cont
+
+    lda #1
+    sta DamagedPaletteMask
+    jmp @cont1
+@cont:
+    lda #0
+    sta DamagedPaletteMask
+@cont1:
+    lda Npcs, y
+    lsr
+    lsr
+    lsr
+    lsr ; push out 3bit status and agitation bit
+
+    sty Temp; store Npcs index
+    sta TempNpcIndex ; what kind of npc is this ?
+    asl
+    asl
+    asl ; index * 8
+    tay
+    lda npc_data, y ; tiles per row
+    sta TempNpcTilesInARow
+    iny
+    lda npc_data, y ; tile rows for the npc
+    ldy Temp; restore Npcs index
+
+    sta Temp; store tile rows
+
+    tya
+    clc
+    adc #5
+    tay
+
+    lda Npcs, y ; screen index where npc resides
+    sta ItemMapScreenIndex
+    clc
+    adc #1
+    sta NextItemMapScreenIndex
+    sec
+    sbc #2
+    sta PrevItemMapScreenIndex
+    iny
+    lda Npcs, y ; direction
+    sta TempDir
+    iny
+    lda Npcs, y ; frame
+
+    ;let's calculate animation frame
+    lsr
+    lsr
+    lsr
+    lsr
+    lsr ;frame / 32
+    sta TempNpcFrame ; let's store the frame for later
+
+    iny
+    lda Npcs, y ;timer
+    sta TempNpcTimer
+
+    tya
+    sec
+    sbc #7 ; back to npcs's x coord
+    tay
+    ;---------
+
 
     lda TempNpcState
     bne @skipDeadCheck
@@ -1640,80 +1709,6 @@ GetSpriteDataPointer:
 
     rts
 
-
-;-----------------------------------
-CollectSingleNpcData:
-
-    lda Npcs, y
-    and #%00000100
-    cmp #4 ; damaged ?
-    bne @cont
-
-    lda #1
-    sta DamagedPaletteMask
-    jmp @cont1
-@cont:
-    lda #0
-    sta DamagedPaletteMask
-@cont1:
-    lda Npcs, y
-    lsr
-    lsr
-    lsr
-    lsr ; push out 3bit status and agitation bit
-
-    sty Temp; store Npcs index
-    sta TempNpcIndex ; what kind of npc is this ?
-    asl
-    asl
-    asl ; index * 8
-    tay
-    lda npc_data, y ; tiles per row
-    sta TempNpcTilesInARow
-    iny
-    lda npc_data, y ; tile rows for the npc
-    ldy Temp; restore Npcs index
-
-    sta Temp; store tile rows
-
-    tya
-    clc
-    adc #5
-    tay
-
-    lda Npcs, y ; screen index where npc resides
-    sta ItemMapScreenIndex
-    clc
-    adc #1
-    sta NextItemMapScreenIndex
-    sec
-    sbc #2
-    sta PrevItemMapScreenIndex
-    iny
-    lda Npcs, y ; direction
-    sta TempDir
-    iny
-    lda Npcs, y ; frame
-
-    ;let's calculate animation frame
-    lsr
-    lsr
-    lsr
-    lsr
-    lsr ;frame / 32
-    sta TempNpcFrame ; let's store the frame for later
-
-    iny
-    lda Npcs, y ;timer
-    sta TempNpcTimer
-
-    tya
-    sec
-    sbc #7 ; back to npcs's x coord
-    tay
-
-@exit:
-    rts
 
 ;-------------------------------------
 ;Update two npc sprites
