@@ -1687,14 +1687,20 @@ DoneLoadingMaps:
     cmp #STATE_GAME
     bne otherState
 
-    jsr UpdateTextBaloon
-    lda MustUpdatePalette
-    bne UpdatePalette
+    ldy #3
+    jsr bankswitch_y
 
-    jsr UpdateFireplace
-    jsr UploadBgColumns
-    jsr UploadModifiedTiles
-    jsr UpdateStatusDigits
+    lda LocationType
+    cmp #LOCATION_TYPE_HOUSE
+    bne columns
+
+    jsr FireplaceUpdate     ; bank 3
+
+columns:
+    jsr UploadBgColumns     ; bank 3
+    jsr UploadModifiedTiles ; bank 3
+    jsr UpdateTextBaloon    ; bank 3
+    jsr UpdateStatusDigits  ; bank 3
     jmp UpdatePalette
 otherState:
     cmp #STATE_CUTSCENE
@@ -1998,19 +2004,8 @@ ResetNameTableAddresses:
 
 
     rts
-;----------------------------------
-UpdateFireplace:
 
-    lda LocationType
-    cmp #LOCATION_TYPE_HOUSE
-    bne @exit
-
-    ldy #3
-    jsr bankswitch_y
-    jsr FireplaceUpdate
-
-@exit:
-    rts
+.segment "ROM3"
 ;--------------------------------------------
 UploadModifiedTiles:
 
@@ -2049,6 +2044,7 @@ UploadModifiedTiles:
 
     rts
 
+.segment "CODE"
 ;--------------------------------------------
 UpdateModifiedTiles:
 
@@ -2258,6 +2254,7 @@ StoreModTileToDraw:
 
     rts
 
+.segment "ROM3"
 ;--------------------------------------------
 ;BgColumnIdxToUpload - column to be updated from ROM
 ;Check and upload background columns from rom map to the PPU
@@ -2377,6 +2374,8 @@ UploadBgColumns:
 
 @exit:
     rts
+
+.segment "CODE"
 
 ;-----------------------------------
 Logics:
@@ -5059,9 +5058,15 @@ CalcMapColumnToUpdate:
     rts
 
 @start:
+
+    lda MustUpdateMapColumn
+    bne @haventUpdatedColumnYet
+
     lda #0
     sta MustUpdateMapColumn
     sta MustUpdateMapAttributeColumn
+
+@haventUpdatedColumnYet:
 
     lda ScrollX
     lsr
@@ -5072,6 +5077,17 @@ CalcMapColumnToUpdate:
 ;Write to A
     sec
     sbc #16
+
+    cmp BgColumnIdxToUpload
+    bne @differentColumnA
+
+    lda MustUpdateMapColumn
+    beq @contColumnA
+    rts ; nmi haven't uploaded tiles yet, no need to fill the tiles in ram again
+
+@contColumnA:
+    lda BgColumnIdxToUpload
+@differentColumnA:
     sta BgColumnIdxToUpload
 
 ;---
@@ -5095,6 +5111,16 @@ CalcMapColumnToUpdate:
 @WriteToB:
     clc
     adc #16
+
+    cmp BgColumnIdxToUpload
+    bne @differentColumnB
+
+    lda MustUpdateMapColumn
+    beq @contColumnB
+    rts ; nmi haven't uploaded tiles yet, no need to fill the tiles in ram again
+@contColumnB:
+    lda BgColumnIdxToUpload
+@differentColumnB:
     sta BgColumnIdxToUpload
 ;---
     lda ScrollDirection
@@ -5241,6 +5267,7 @@ CutsceneNametableAnimations:
 
     rts
 
+.segment "ROM3"
 ;--------------------------------
 UpdateTextBaloon:
 
@@ -5286,25 +5313,6 @@ UpdateTextBaloon:
 @exit:
     rts
 
-;---------------------------------
-UpdateGameOverHint:
-
-    lda MustUpdateTextBaloon
-    beq @exit
-
-
-    ldy current_bank
-    sty oldbank
-    ldy #5
-    jsr bankswitch_y
-
-    jsr GameOverHintUpdate
-
-    ldy oldbank
-    jsr bankswitch_y
-
-@exit:
-    rts
 
 
 ;--------------------------------
@@ -5452,6 +5460,28 @@ UpdateStatusDigits:
     jsr UpdateSunMoonTiles
 @exit:
     rts
+
+.segment "CODE"
+;---------------------------------
+UpdateGameOverHint:
+
+    lda MustUpdateTextBaloon
+    beq @exit
+
+
+    ldy current_bank
+    sty oldbank
+    ldy #5
+    jsr bankswitch_y
+
+    jsr GameOverHintUpdate
+
+    ldy oldbank
+    jsr bankswitch_y
+
+@exit:
+    rts
+
 
 ;-----------------------------------
 ;Must put the address of the time indicator into $2006
