@@ -1677,10 +1677,31 @@ ReadControllerLoop:
     lda #0
     sta InputProcessed
 
+    ;Background loading-------------
     lda MustLoadSomething
     beq DoneLoadingMaps
 
-    jsr LoadBackgroundsIfNeeded
+    lda GameState
+    cmp #STATE_MENU
+    bne next
+
+    jsr UpdateMenuGfx   ; code from ROM1
+    jsr LoadMenu
+    jmp DoneLoadingMaps
+
+next:
+
+    jsr LoadTitle
+    jsr LoadGameOver
+    jsr LoadCutscene
+
+    jsr LoadInteriorMap
+
+    lda MustLoadOutside
+    beq endIt
+    jsr LoadOutsideMap
+endIt:
+    jmp endOfNmi ; loading a screen is too much for nmi, let's end it
 
 DoneLoadingMaps:
     lda GameState
@@ -1964,30 +1985,7 @@ doTitle:
 
     rts
 
-;--------------------------------------------
-LoadBackgroundsIfNeeded:
 
-    lda GameState
-    cmp #STATE_MENU
-    bne @next
-
-    jsr UpdateMenuGfx   ; code from ROM1
-
-@next:
-
-    jsr LoadTitle
-    jsr LoadGameOver
-    jsr LoadCutscene
-    jsr LoadMenu
-
-    jsr LoadInteriorMap
-
-    lda MustLoadOutside
-    beq @exit
-    jsr LoadOutsideMap
-
-@exit:
-    rts
 
 ;---------------------------------
 ResetNameTableAddresses:
@@ -2275,6 +2273,10 @@ UploadBgColumns:
     lda SourceMapIdx
     cmp ScreenCount
     bcc @doUpdates
+
+    lda #0
+    sta MustUpdateMapColumn
+    sta MustUpdateMapAttributeColumn
 
     rts
 
@@ -3843,9 +3845,6 @@ RoutinesAfterFadeOut:
     sta OldAttribColumnIdxToUpdate
     sta TaintedSprites
     jsr CalcMapColumnToUpdate ; this is neccessery for map loading
-    lda #0
-    sta MustUpdateMapAttributeColumn ; we don't really need to update the column right away
-    sta MustUpdateMapColumn
 
     rts
 ;------------------------------
@@ -5082,14 +5081,16 @@ CalcMapColumnToUpdate:
     bne @differentColumnA
 
     lda MustUpdateMapColumn
-    beq @contColumnA
+    beq @gogoA ; don't modify the IDX
     rts ; nmi haven't uploaded tiles yet, no need to fill the tiles in ram again
 
-@contColumnA:
-    lda BgColumnIdxToUpload
 @differentColumnA:
     sta BgColumnIdxToUpload
+    lda MustUpdateMapColumn
+    beq @gogoA
+    nop; TODO: do something when there's an unuploaded tile column
 
+@gogoA:
 ;---
     lda ScrollDirection
     cmp #1
@@ -5116,12 +5117,17 @@ CalcMapColumnToUpdate:
     bne @differentColumnB
 
     lda MustUpdateMapColumn
-    beq @contColumnB
+    beq @gogoB ; no need to change the IDX
     rts ; nmi haven't uploaded tiles yet, no need to fill the tiles in ram again
-@contColumnB:
-    lda BgColumnIdxToUpload
+
 @differentColumnB:
     sta BgColumnIdxToUpload
+    lda MustUpdateMapColumn
+    beq @gogoB
+    nop ;TODO: do something when there's an unuploaded tile column
+
+
+@gogoB:
 ;---
     lda ScrollDirection
     cmp #1
