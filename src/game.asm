@@ -5059,13 +5059,15 @@ CalcMapColumnToUpdate:
 @start:
 
     lda MustUpdateMapColumn
-    bne @haventUpdatedColumnYet
+    beq @start2
+
+    rts
+
+@start2:
 
     lda #0
     sta MustUpdateMapColumn
     sta MustUpdateMapAttributeColumn
-
-@haventUpdatedColumnYet:
 
     lda ScrollX
     lsr
@@ -5077,20 +5079,7 @@ CalcMapColumnToUpdate:
     sec
     sbc #16
 
-    cmp BgColumnIdxToUpload
-    bne @differentColumnA
-
-    lda MustUpdateMapColumn
-    beq @gogoA ; don't modify the IDX
-    rts ; nmi haven't uploaded tiles yet, no need to fill the tiles in ram again
-
-@differentColumnA:
     sta BgColumnIdxToUpload
-    lda MustUpdateMapColumn
-    beq @gogoA
-    nop; TODO: do something when there's an unuploaded tile column
-
-@gogoA:
 ;---
     lda ScrollDirection
     cmp #1
@@ -5113,21 +5102,8 @@ CalcMapColumnToUpdate:
     clc
     adc #16
 
-    cmp BgColumnIdxToUpload
-    bne @differentColumnB
-
-    lda MustUpdateMapColumn
-    beq @gogoB ; no need to change the IDX
-    rts ; nmi haven't uploaded tiles yet, no need to fill the tiles in ram again
-
-@differentColumnB:
     sta BgColumnIdxToUpload
-    lda MustUpdateMapColumn
-    beq @gogoB
-    nop ;TODO: do something when there's an unuploaded tile column
 
-
-@gogoB:
 ;---
     lda ScrollDirection
     cmp #1
