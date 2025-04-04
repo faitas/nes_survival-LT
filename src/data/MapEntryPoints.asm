@@ -224,7 +224,7 @@ MapSpawnPoint:
     .byte 119, 210, 11, OUTDOORS_LOC12_SCREEN_COUNT, LOCATION_TYPE_OUTDOORS, SONG_OUTSIDE_DAY, 5, 160, 2
     .byte 0, <main_palette, >main_palette, 2, 0, 0, 3
     ;entrance to mine location(from Bjorn's house place)
-    .byte 119, 210, 11, OUTDOORS_LOC12_SCREEN_COUNT, LOCATION_TYPE_OUTDOORS, SONG_OUTSIDE_DAY, 5, 113, 1
+    .byte 119, 210, 11, OUTDOORS_LOC12_SCREEN_COUNT, LOCATION_TYPE_OUTDOORS, SONG_OUTSIDE_DAY, 5, 114, 1
     .byte 0, <main_palette, >main_palette, 2, 0, 0, 1
     ;-----------------
     ;Exit point of third location

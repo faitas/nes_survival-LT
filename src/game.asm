@@ -3910,9 +3910,13 @@ CommonLocationRoutine:
 
     lda (pointer2), y
     sta PlayerX
+    lda #0
+    sta PlayerX + 1 ; reset fraction
     iny
     lda (pointer2), y
     sta PlayerY
+    lda #0
+    sta PlayerY + 1 ; reset fraction
     iny
     lda (pointer2), y
     sta LocationIndex
@@ -3951,6 +3955,8 @@ CommonLocationRoutine:
     iny
     lda (pointer2), y ; scroll X
     sta ScrollX
+    lda #0 ; let's reset the fractional part
+    sta ScrollX + 1
     iny
     lda (pointer2), y ; active screen
     sta CurrentMapSegmentIndex
