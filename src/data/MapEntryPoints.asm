@@ -26,7 +26,7 @@ entry_points_loc0:
     ;---------------------------------------
 entry_points_loc1:
     ;4.Bjorn's house entrance
-    .byte 4, 0, 117, 124, 85, 91, 112, 123
+    .byte 4, 0, 117, 124, 83, 91, 112, 122
     ;5.Exit point of second location
     .byte 5, 0, 0, 255, 0, 255, 222, 255
     ;6.entrance to mine location (where path is)
@@ -134,9 +134,9 @@ entry_points_loc16:
     ; Lobby
 entry_points_loc17:
     ;41. pre-alien base entrance
-    .byte 41, 0, 230, 255, 0, 255, 125, 140
+    .byte 41, 0, 230, 255, 0, 255, 120, 144
     ;42. exit to dark cave 2
-    .byte 42, 0, 32, 40, 0, 255, 119, 130
+    .byte 42, 0, 24, 40, 0, 255, 119, 130
     ;43. alien-lobby-room
     .byte 43, 0, 120, 136, 0, 255, 40, 50
     ;--------------------------------------

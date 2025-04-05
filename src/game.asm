@@ -5987,6 +5987,8 @@ ResetVariables:
     sta StaminaDelay
 
     lda #0
+    sta MustUpdateMapAttributeColumn
+    sta MustUpdateMapColumn
     sta RotFoodCounter
     sta StaminaToWarmthCounter
     sta SkipLastTileRowsInIndoorMaps
@@ -7907,7 +7909,7 @@ CheckBed:
 CheckFireplace:
 
     lda PlayerX
-    cmp #104
+    cmp #96
     bcc @nope
     cmp #128
     bcs @nope
@@ -7940,7 +7942,7 @@ CheckFireplace:
 CheckStashBox:
 
     lda PlayerX
-    cmp #144
+    cmp #136
     bcc @nope
     cmp #168
     bcs @nope
