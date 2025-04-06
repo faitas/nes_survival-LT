@@ -38,7 +38,7 @@ entry_points_loc2:
     ;8.Exit point of third location
     .byte 8, 0, 0, 255, 0, 255, 0,   20
     ;9.Erika's house
-    .byte 9, 0, 117, 124, 126, 135, 122, 135
+    .byte 9, 0, 117, 124, 124, 135, 122, 135
     ;------------------------
 entry_points_loc3:
     ;10.Bjorn's house exit

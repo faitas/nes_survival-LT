@@ -12,5 +12,6 @@ recipes:
     .byte 10, 1 , 14,  255, 22  ;  hide + stick + rope  = slingshot
 
     .byte 3 , 4 , 255, 255, 23  ;  cooked meat + berries = pie
-    .byte 31 , 31 , 255, 255, 5 ;  medicine shroom + medicine shroom = potion
-    .byte 21 , 4 , 255, 255, 23 ;  cooked meat + cooked mushroom = pie
+    .byte 31, 31, 255, 255, 5   ;  medicine shroom + medicine shroom = potion
+    .byte 31, 4 , 255, 255, 5   ;  medicine shroom + berries = potion
+    .byte 3,  21, 255, 255, 23  ;  cooked meat + cooked mushroom = pie

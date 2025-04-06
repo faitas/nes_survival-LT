@@ -406,7 +406,7 @@
 
     DIALOG_TEXT_LENGTH         = 96
 
-    RECIPES_SIZE               = 55
+    RECIPES_SIZE               = 60
 
     INTERVAL_OF_FOOD_ROT       = 16
 
