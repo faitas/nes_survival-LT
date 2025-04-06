@@ -104,6 +104,7 @@
     FISHING_DELAY              = 2
     STAMINA_DELAY              = 2
     NPC_ELIMINATION_DELAY      = 200
+    PROJECTILE_DELAY           = 60
 
     HUD_TILE_COUNT             = 128
     HUD_TILE_ROW_COUNT         = 4
@@ -328,11 +329,11 @@
 
 
 .if FAMISTUDIO_CFG_PAL_SUPPORT
-    PROJECTILE_SPEED_INT       = 2
-    PROJECTILE_SPEED_FRAC      = 228
+    PROJECTILE_SPEED_INT       = 1
+    PROJECTILE_SPEED_FRAC      = 205
 .else
-    PROJECTILE_SPEED_INT       = 2
-    PROJECTILE_SPEED_FRAC      = 190
+    PROJECTILE_SPEED_INT       = 1
+    PROJECTILE_SPEED_FRAC      = 128
 .endif
 
 

@@ -3478,8 +3478,17 @@ GiveItem:
 
     lda VillagerIndex
     cmp #VILLAGER_IDX_ERIKA
-    beq @ignoreActiveQuestIndex
+    bne @regularStuff
 
+    ;it's ugly, but...
+    tay
+    lda ActiveVillagerQuests, y
+    cmp #2 ; can't give the letter during the quest 3
+    beq @exit
+
+    jmp @ignoreActiveQuestIndex
+
+@regularStuff:
     ldy TempSpearX ; that person index
     lda ActiveVillagerQuests, y
     cmp TempFrame

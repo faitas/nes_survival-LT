@@ -772,6 +772,8 @@ FuelBlinkIteration      = DialogTextContainer + 29
 DocumentJustClosed      = DialogTextContainer + 30
 FoodMenuIndex           = DialogTextContainer + 31
 ItemMenuIndex           = DialogTextContainer + 32
+SelectedItemPower       = DialogTextContainer + 33
+
 
 ;--Cutscene vars
 CutsceneSceneIdx        = DialogTextContainer
@@ -1266,8 +1268,6 @@ DontIncrementQuestNumber:
 TempPreRowLoopValue: ; used in LoadOutsidemap
     .res 1
 
-SelectedItemPower:
-    .res 1
 
 TempNpcDataIdxForCollision:
     .res 1
@@ -1376,6 +1376,9 @@ StaminaToWarmthCounter:
 RotFoodCounter:
     .res 1
 
+ProjectileDelay:
+    .res 1
+
 BSS_Free_Bytes:
     .res 1
 
@@ -1478,6 +1481,8 @@ vblankwait2:      ; Second wait for vblank, PPU is ready after this
     sta NpcAIUpdateDelay
     lda #NPC_COLLISION_DELAY
     sta NpcCollisionDelay
+    lda #PROJECTILE_DELAY
+    sta ProjectileDelay
     lda #0
     sta MustLoadHouseInterior
     sta MustLoadSomething
@@ -1542,6 +1547,12 @@ npcCollision:
 
 doSomeLogics:
 
+    dec ProjectileDelay
+    bne runLogics
+    lda #PROJECTILE_DELAY
+    sta ProjectileDelay
+    jsr UpdateProjectiles
+runLogics:
     jsr Logics
 
 nextIteration:
@@ -2429,8 +2440,7 @@ Logics:
     ;------------------
 
     jsr UpdateModifiedTiles
-    jsr UpdateProjectiles
-    jsr UpdateSpear
+    
 
 @exit:
     rts
@@ -2740,9 +2750,7 @@ UpdateFishingRod:
 UpdateProjectiles:
 
     ldy ProjectileCount
-    bne @continue
-
-    rts
+    beq @doTheSpear
 
 @continue:
     dey
@@ -2760,7 +2768,73 @@ UpdateProjectiles:
     bpl @projectileLoop
 
 
+@doTheSpear:  ;Spear update
+
+    lda #<SpearData
+    sta ProjectilePtr
+    lda #>SpearData
+    sta ProjectilePtr + 1
+    ldy #0
+
+
+    lda SpearData ; Dir + Active
+    lsr
+    bcc @exit
+
+    cmp #PROJECTILE_DIR_LEFT
+    bcc @otherDir
+    beq @moveLeft
+
+    lda #16
+    sta ProjectileWidth
+    jsr MoveProjectileRight
+    bne @disable
+    jmp @filter
+
+@moveLeft:
+
+   jsr MoveProjectileLeft
+   bne @disable
+
+@filter:
+    ldy #2
+    jmp @exit
+
+@otherDir:
+
+    ldy #4 ; set to Y
+
+    jsr MoveProjectileVerticaly
+    cmp #1
+    beq @disable
+
+    jmp @exit
+
+@disable: ;let's disable spear
+    lda EquipedItem + 1
+    cmp #ITEM_MAX_HP
+    bne @simplyRemove
+
+    lda #%00001111 ; 7 + active bit
+    sta TempItemIndex
+    jsr ItemSpawnPrep
+    lda SpearData + 3 ; screen
+    sta Items, y
+    iny
+    lda SpearData + 1 ; x
+    sta Items, y
+    iny
+    lda SpearData + 4 ; y
+    sta Items, y
+
+@simplyRemove:
+    lda #0
+    sta EquipedItem
+    sta SpearData
+
+
 @exit:
+
     rts
 ;-------------------------------
 UpdateSingleProjectile:
@@ -2812,14 +2886,6 @@ UpdateSingleProjectile:
 
 @disable:
 
-    jsr DisableProjectiles
-
-@exit:
-
-    rts
-;-----------------------------
-DisableProjectiles:
-
     ldy ProjectileIdx
     lda projectiles_ram_lookup, y
     tay
@@ -2853,6 +2919,7 @@ DisableProjectiles:
     lda #0
     sta Projectiles, y
 
+@exit:
 
     rts
 ;-----------------------------
@@ -2985,56 +3052,6 @@ MoveProjectileRight:
 
     rts
 ;-------------------------------
-UpdateSpear:
-
-    lda #<SpearData
-    sta ProjectilePtr
-    lda #>SpearData
-    sta ProjectilePtr + 1
-    ldy #0
-
-
-    lda SpearData ; Dir + Active
-    lsr
-    bcc @exit
-
-    cmp #PROJECTILE_DIR_LEFT
-    bcc @otherDir
-    beq @moveLeft
-
-    lda #16
-    sta ProjectileWidth
-    jsr MoveProjectileRight
-    bne @disable
-    jmp @filter
-
-@moveLeft:
-
-   jsr MoveProjectileLeft
-   bne @disable
-
-@filter:
-    ldy #2
-    jmp @exit
-
-@otherDir:
-
-    ldy #4 ; set to Y
-
-    jsr MoveProjectileVerticaly
-    cmp #1
-    beq @disable
-
-    jmp @exit
-
-@disable:
-    jsr DisableSpear
-
-
-@exit:
-
-    rts
-;-------------------------------
 MoveProjectileLeft:
 
     iny
@@ -3102,33 +3119,6 @@ MoveProjectileLeft:
     lda #1
 
 @exit:
-    rts
-
-
-;-------------------------------
-DisableSpear:
-
-    lda EquipedItem + 1
-    cmp #ITEM_MAX_HP
-    bne @simplyRemove
-
-    lda #%00001111 ; 7 + active bit
-    sta TempItemIndex
-    jsr ItemSpawnPrep
-    lda SpearData + 3 ; screen
-    sta Items, y
-    iny
-    lda SpearData + 1 ; x
-    sta Items, y
-    iny
-    lda SpearData + 4 ; y
-    sta Items, y
-
-@simplyRemove:
-    lda #0
-    sta EquipedItem
-    sta SpearData
-
     rts
 
 
