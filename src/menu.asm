@@ -45,6 +45,7 @@ LoadMenu:
 
     lda #1
     sta MustUpdateSunMoon
+    sta MenuLoaded
 
     lda #0
     sta MustUpdatePalette
@@ -52,14 +53,19 @@ LoadMenu:
 
     lda LocationType
     cmp #LOCATION_TYPE_HOUSE
-    bne @exit
+    bne @end
 
     lda #$00
     sta Temp
     jsr ColorMainMenuAttributes
 
+@end:
+    lda #1
+    rts
+
 
 @exit:
+    lda #0
 
     rts
 ;------------------------------------
@@ -122,6 +128,7 @@ ResetOverlayedMenuVars:
     sta DocumentJustClosed
     sta FoodMenuIndex
     sta ItemMenuIndex
+    sta MenuLoaded
     ldx #0
 @craftingIndexesLoop:
     sta CraftingIndexes, x
@@ -3793,6 +3800,12 @@ InitRegularInput:
 ;-------------------------------------
 DoRegularInput:
 
+    lda MenuLoaded
+    bne @gogo
+
+    rts
+
+@gogo:
     lda PlayerInteractedWithStorage
     bne @stashList
     lda PlayerInteractedWithFireplace
@@ -3831,10 +3844,7 @@ DoRegularInput:
     lda LocationType
     cmp #LOCATION_TYPE_HOUSE
     bne @exit
-
-
-    jsr OpenupSleep
-    jmp @exit
+    jmp @setPointerToSleep
 
 @Cancel_pressed:
     lda Buttons
@@ -4051,11 +4061,11 @@ OpenupSleep:
 
     lda #1
     sta SubMenuActivated
-    lda #40;#MENU_SUBMENU_POINTER_X
+    lda #40
     sta InventoryPointerX
     lda InventoryPointerY
     sta OldInventoryPointerY
-    lda #80;#MENU_SUBMENU_POINTER_MIN_Y
+    lda #80
     sta InventoryPointerY
 
     rts

@@ -56,7 +56,7 @@ entry_points_loc6:
     ;13.crashsite entrance from cave
     .byte 13, 0, 0, 255, 0, 255, 0, 22
     ;14.cave exit to cave location
-    .byte 14, 0, 119, 125, 220, 230, 222, 255
+    .byte 14, 0, 0, 255, 0, 255, 222, 255
     ;15.dark cave entrance bottom
     .byte 15, 2, 232, 255, 0, 255, 160, 199
     ;16.alien base entrance top
@@ -74,7 +74,7 @@ entry_points_loc8:
     ;20.exit from granny's location to the main one
     .byte 20, 0, 0, 255, 0, 255, 0, 32
     ;21.granny's house
-    .byte 21, 0, 118, 122, 149, 155, 104, 111
+    .byte 21, 0, 117, 125, 149, 157, 104, 111
     ;22.secret cave
     .byte 22, 2, 156, 167,   0,   255, 130, 135
     ;-------------------

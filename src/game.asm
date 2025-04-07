@@ -773,6 +773,7 @@ DocumentJustClosed      = DialogTextContainer + 30
 FoodMenuIndex           = DialogTextContainer + 31
 ItemMenuIndex           = DialogTextContainer + 32
 SelectedItemPower       = DialogTextContainer + 33
+MenuLoaded              = DialogTextContainer + 34
 
 
 ;--Cutscene vars
@@ -1696,9 +1697,24 @@ ReadControllerLoop:
     cmp #STATE_MENU
     bne next
 
-    jsr UpdateMenuGfx   ; code from ROM1
     jsr LoadMenu
-    jmp DoneLoadingMaps
+    bne endIt  ;A is not 0, tha means menu loading happened, let's end the nmi
+
+    jsr UpdateMenuGfx   ; code from ROM1
+
+    lda MustUpdateSunMoon
+    beq UpdatePalette
+    lda $2002
+    lda FirstNametableAddr
+    clc
+    adc #$02
+    sta $2006
+    lda #$9A
+    sta $2006
+
+    jsr UpdateSunMoonTiles
+
+    jmp UpdatePalette
 
 next:
 
@@ -1742,25 +1758,10 @@ otherState:
     jmp UpdatePalette
 checkTitleState:
     cmp #STATE_TITLE
-    bne checkMenuStateUpdate
-
-    jsr AnimateTitleTiles
-checkMenuStateUpdate:
-    cmp #STATE_MENU
     bne UpdateGameOver
 
+    jsr AnimateTitleTiles
 
-    lda MustUpdateSunMoon
-    beq UpdatePalette
-    lda $2002
-    lda FirstNametableAddr
-    clc
-    adc #$02
-    sta $2006
-    lda #$9A
-    sta $2006
-
-    jsr UpdateSunMoonTiles
 UpdateGameOver:
     cmp #STATE_GAME_OVER
     bne UpdatePalette
