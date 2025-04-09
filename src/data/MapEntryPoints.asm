@@ -62,7 +62,7 @@ entry_points_loc6:
     ;16.alien base entrance top
     .byte 16, 2, 207, 230, 0, 255, 43, 63
     ;17. Mine room entrance
-    .byte 17, 0, 117, 125, 22, 28, 100, 131
+    .byte 17, 0, 117, 125, 20, 30, 90, 131
     ;--------------------------
 entry_points_loc7:
     ;18.crashsite exit to cave
