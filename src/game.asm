@@ -6480,7 +6480,7 @@ CheckStartButton:
 
     lda GameState
     cmp #STATE_GAME
-    bne @exit
+    bne @exit ; only works in game state
 
     lda Buttons
     and #BUTTON_SELECT_MASK
@@ -6542,7 +6542,7 @@ EquipNext:
     cmp #1
     bcs @exit
     inc EquipNextResetCount
-    ldx #254
+    ldx #254 ; -2
     jmp @loop
 
 @cont:
@@ -6552,21 +6552,16 @@ EquipNext:
     sta pointer
     lda #>EquipedItem
     sta pointer + 1
-    jsr UnequipItem
-
-    lda EquipedItem
-    bne @exit ; failed
 
     ldx TempItemIndex
+    stx PreviouslyEquipedItemIdx
     jsr EquipItem
     beq @exit
 
-    stx PreviouslyEquipedItemIdx
     lda #0
     sta Inventory, x
     inx
     sta Inventory, x
-
 
 @exit:
     ldy oldbank
