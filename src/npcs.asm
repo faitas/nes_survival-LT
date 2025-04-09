@@ -501,24 +501,7 @@ SingleNpcVSPlayerCollision:
     lda Npcs, y ; y
     sta TempPointY
 ;-------
-    jsr PlayerNpcCollision
-    bne @collides
-    jmp @exit
-
-@collides:
-    lda #1
-    jmp @end
-
-@exit:
-    lda #0
-@end:
-
-    rts
-;-------------------------------------
-;Does player collides with an npc?
-;oposite subroutine is OnCollisionWithPlayer
-PlayerNpcCollision:
-
+    ;Does player collides with an npc?
     lda TempPointX
     clc
     adc TempBboxOffset ; x offset
@@ -570,7 +553,11 @@ PlayerNpcCollision:
 @exit:
     lda #0
 @end:
+
+
+
     rts
+
 ;-------------------------------------
 PlayerHitsNpcs:
 
@@ -2022,7 +2009,20 @@ SingleNpcAI:
     jmp @nextNpc
 
 @resetState: ; exit to IDLE state from whatever state we were in
-    jsr ResetNpcState
+    lda #0
+    sta Npcs, x ;reset timer
+
+    ;return x from "timer" back to "state"
+    txa
+    sec
+    sbc #8
+    tax
+
+    lda Npcs, x
+    and #%11111000 ;clear state
+    eor #000000001 ;idle state
+    sta Npcs, x
+
     jmp @nextNpc
 
 @damage:
@@ -2055,24 +2055,6 @@ npcGoToAttackStateFromWarning:
 
     rts
 
-;--------------------------
-;x is at npc timer
-ResetNpcState:
-    lda #0
-    sta Npcs, x ;reset timer
-
-    ;return x from "timer" back to "state"
-    txa
-    sec
-    sbc #8
-    tax
-
-    lda Npcs, x
-    and #%11111000 ;clear state
-    eor #000000001 ;idle state
-    sta Npcs, x
-
-    rts
 ;--------------------------
 CheckNpcAttackBoxWithPlayer:
 
