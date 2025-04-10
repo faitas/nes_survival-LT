@@ -3422,7 +3422,7 @@ DamagePlayer:
     sta RamPalette, y
     lda #PLAYER_DAMAGED_DELAY
     sta PlayerDamagedCounter
-    lda #PALETTE_SIZE_MAX
+    lda #PLAYER_OUTLINE_COLOR_POS + 1
     sta PaletteUpdateSize
 
 @exit:
