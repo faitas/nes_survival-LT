@@ -595,7 +595,7 @@ PlayerNpcsHitDectect:
 @npcLoop:
     sty TempItemIndex
     jsr CheckSingleNpcAgainstPlayerHit
-   
+
 @nextNpc:
     ldy TempItemIndex
     dey

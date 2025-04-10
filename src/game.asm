@@ -1548,6 +1548,10 @@ npcCollision:
 
 doSomeLogics:
 
+    lda GameState
+    cmp #STATE_GAME
+    bne runLogics
+
     dec ProjectileDelay
     bne runLogics
     lda #PROJECTILE_DELAY
@@ -6499,9 +6503,6 @@ CheckStartButton:
     jmp @exit
 
 @equipNext:
-
-    lda FishingRodActive
-    bne @exit
 
     jsr EquipNext
 

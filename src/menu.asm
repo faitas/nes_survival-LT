@@ -3344,6 +3344,13 @@ SpawnSpecialReward:
 ;pointer - EquipedItem or EquipedClothing
 EquipItem:
 
+    lda FishingRodActive
+    bne @exit
+
+    lda SpearData
+    lsr
+    bcs @exit
+
     jsr PlaySfx_Equip
 
     ldy #0
