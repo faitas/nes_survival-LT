@@ -122,6 +122,7 @@ ResetOverlayedMenuVars:
     sta MustDrawSleepMessage
     sta MustDrawInventoryGrid
     sta MustDrawEquipmentGrid
+    sta MustDrawMenuTitle
     sta MustDrawMenu
     sta MustResetMenu
     sta MenuStepLast

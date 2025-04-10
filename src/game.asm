@@ -774,6 +774,8 @@ FoodMenuIndex           = DialogTextContainer + 31
 ItemMenuIndex           = DialogTextContainer + 32
 SelectedItemPower       = DialogTextContainer + 33
 MenuLoaded              = DialogTextContainer + 34
+MustDrawMenuTitle       = DialogTextContainer + 35
+
 
 
 ;--Cutscene vars
@@ -960,8 +962,6 @@ MustLoadGameOver:
 MustLoadCutscene:
     .res 1
 MustLoadIntroChr:
-    .res 1
-MustDrawMenuTitle:
     .res 1
 
 MustLoadGameOverAfterFadeOut:
@@ -6344,7 +6344,7 @@ StartGame:
     lda #NUM_OF_BUNNIES_BEFORE_DOG
     sta DogCounter
 
-    lda #3
+    lda #2
     sta TempNpcCnt
     sta TempScreenNpcCount
     lda #0
@@ -6353,7 +6353,7 @@ StartGame:
 
     lda #1
     sta TempIndex
-    lda #3
+    lda #2
     sta TempNpcCnt
     jsr GenerateNpcs
 
