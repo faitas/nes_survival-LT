@@ -1686,7 +1686,7 @@ ReadControllerLoop:
     bne ReadControllerLoop
 
     lda Buttons
-    eor ButtonsP3 ;combine player3 input with player1
+    ora ButtonsP3 ;combine player3 input with player1
     sta Buttons
 
 
