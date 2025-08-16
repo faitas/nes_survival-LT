@@ -381,7 +381,7 @@ DrawMenuTitle:
     lda #MENU_TITLE_ADDRESS
     sta TempX
 
-    lda #8
+    lda #9
     sta TempPointX
     lda #1
     sta TempPointY
@@ -389,7 +389,7 @@ DrawMenuTitle:
     lda EquipmentActivated
     beq @crafting
 
-    lda #10
+    lda #11
     sta TempPointX
     lda #<equipment_title
     sta pointer
@@ -419,7 +419,7 @@ DrawMenuTitle:
 @Inventory_title:
     lda InventoryActivated
     beq @SleepTitle
-    lda #10
+    lda #12
     sta TempPointX
     lda #<inventory_title
     sta pointer
@@ -432,7 +432,7 @@ DrawMenuTitle:
     lda SubMenuIndex
     cmp #SUBMENU_SLEEP
     bne @empty
-    lda #10
+    lda #12
     sta TempPointX
     lda #<sleep_title
     sta pointer
@@ -442,7 +442,7 @@ DrawMenuTitle:
 
 @empty:
 
-    lda #10
+    lda #12
     sta TempPointX
     lda #<empty_title
     sta pointer
@@ -484,7 +484,7 @@ DrawInventoryGrid:
     lda #MENU_ITEM_GRID_ADDRESS
     sta TempX
 
-    lda #10
+    lda #12
     sta TempPointX
     lda CraftingActivated
     beq @regularInventory
@@ -535,7 +535,7 @@ DrawEquipmentGrid:
     lda #MENU_ITEM_GRID_ADDRESS
     sta TempX
 
-    lda #10
+    lda #12
     sta TempPointX
     lda #7
     sta TempPointY
@@ -603,7 +603,7 @@ DrawSleepMessage:
     lda #$23
     sta TempX
 
-    lda #12
+    lda #13
     sta TempPointX
 
     lda #5
@@ -635,7 +635,7 @@ DrawSleepMessage:
     lda sleep_msg_ptr, y
     sta pointer + 1
 
-    lda #6
+    lda #7
     sta TempPointX
 
     lda #1
@@ -792,7 +792,7 @@ DrawStashDocumentMenu:
     lda #MENU_SUBMENU_ADDRESS_LOW
     sta TempX
 
-    lda #9
+    lda #14
     sta TempPointX
 
 
@@ -832,7 +832,7 @@ DrawDocumentMenu:
     lda #MENU_SUBMENU_ADDRESS_LOW
     sta TempX
 
-    lda #9
+    lda #14
     sta TempPointX
 
 
@@ -893,7 +893,7 @@ DrawFoodMenu:
     lda #MENU_SUBMENU_ADDRESS_LOW
     sta TempX
 
-    lda #9
+    lda #14
     sta TempPointX
 
     lda LocationType
@@ -979,7 +979,7 @@ DrawStashFoodMenu:
     lda #MENU_SUBMENU_ADDRESS_LOW
     sta TempX
 
-    lda #9
+    lda #14
     sta TempPointX
 
     jsr IsFoodCooked
@@ -1030,7 +1030,7 @@ DrawStashItemMenu:
     lda #MENU_SUBMENU_ADDRESS_LOW
     sta TempX
 
-    lda #9
+    lda #14
     sta TempPointX
     lda #9
     sta TempPointY
@@ -1063,7 +1063,7 @@ DrawToolMenu:
     lda #MENU_SUBMENU_ADDRESS_LOW
     sta TempX
 
-    lda #9
+    lda #14
     sta TempPointX
     lda #9
     sta TempPointY
@@ -1122,7 +1122,7 @@ DrawStashToolMenu:
     lda #MENU_SUBMENU_ADDRESS_LOW
     sta TempX
 
-    lda #9
+    lda #14
     sta TempPointX
     lda #9
     sta TempPointY
@@ -1183,7 +1183,7 @@ DrawItemMenu:
     sta TempX
 
 
-    lda #9
+    lda #14
     sta TempPointX
     lda #9
     sta TempPointY
@@ -1265,7 +1265,7 @@ DrawMaterialMenu:
     lda #MENU_SUBMENU_ADDRESS_LOW
     sta TempX
 
-    lda #9
+    lda #14
     sta TempPointX
     lda #7
     sta TempPointY
@@ -1323,7 +1323,7 @@ DrawStashMaterialMenu:
     lda #MENU_SUBMENU_ADDRESS_LOW
     sta TempX
 
-    lda #9
+    lda #14
     sta TempPointX
     lda #7
     sta TempPointY

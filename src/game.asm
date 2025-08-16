@@ -155,52 +155,57 @@ intro_palette:
     .byte $0C,$06,$16,$30, $0C,$0c,$1B,$36, $0C,$0c,$16,$36, $0C,$12,$32,$38 ; sprites
 
 push_start:
-    .byte $1a,$1f,$1d,$12,$00,$1d,$1e,$0b,$1c,$1e
+    .byte $1d,$1a,$0b,$1f,$1d,$15,$00,$1d,$1e,$0b,$1c,$1e
 
 
 game_over_sprites:
-    .byte 152, $11, 0, 88   ; G
-    .byte 152, $0b, 0, 96   ; A
-    .byte 152, $17, 0, 104  ; M
-    .byte 152, $0f, 0, 112  ; E
+    .byte 152, $1e, 0, 96  ; T
+    .byte 152, $1f, 0, 104  ; U
+    .byte 152, $00, 0, 112  ; 
+    .byte 152, $17, 0, 120  ; M
+	.byte 152, $13, 0, 128  ; I
+    .byte 152, $1c, 0, 136  ; R
+    .byte 152, $0f, 0, 144  ; E
+    .byte 152, $13, 0, 152  ; I	
+    .byte 152, $00, 0, 160  ; 
+    .byte 152, $00, 0, 168  ; 
+    .byte 152, $00, 0, 176  ; 
+    .byte 152, $00, 0, 184  ; 
 
-    .byte 152, $19, 0, 136  ; O
-    .byte 152, $20, 0, 144  ; V
-    .byte 152, $0f, 0, 152  ; E
-    .byte 152, $1c, 0, 160  ; R
-
-    .byte GAME_OVER_SURVIVED_Y, $1d, 1, 96   ; S
-    .byte GAME_OVER_SURVIVED_Y, $1f, 1, 104  ; U
-    .byte GAME_OVER_SURVIVED_Y, $1c, 1, 112  ; R
-    .byte GAME_OVER_SURVIVED_Y, $20, 1, 120  ; V
+    .byte GAME_OVER_SURVIVED_Y, $00, 1, 96   ; 
+    .byte GAME_OVER_SURVIVED_Y, $13, 1, 104  ; I
+    .byte GAME_OVER_SURVIVED_Y, $22, 1, 112  ; S
+    .byte GAME_OVER_SURVIVED_Y, $16, 1, 120  ; L
     .byte GAME_OVER_SURVIVED_Y, $13, 1, 128  ; I
-    .byte GAME_OVER_SURVIVED_Y, $20, 1, 136  ; V
-    .byte GAME_OVER_SURVIVED_Y, $0f, 1, 144  ; E
-    .byte GAME_OVER_SURVIVED_Y, $0e, 1, 152  ; D
+    .byte GAME_OVER_SURVIVED_Y, $15, 1, 136  ; K
+    .byte GAME_OVER_SURVIVED_Y, $0b, 1, 144  ; A
+    .byte GAME_OVER_SURVIVED_Y, $13, 1, 152  ; I
 
     .byte GAME_OVER_DAYS_Y, $0e, 1, 128  ; D
-    .byte GAME_OVER_DAYS_Y, $0b, 1, 136  ; A
-    .byte GAME_OVER_DAYS_Y, $23, 1, 144  ; Y
-    .byte GAME_OVER_DAYS_Y, $1d, 1, 152  ; S
+	.byte GAME_OVER_DAYS_Y, $13, 1, 136  ; I
+    .byte GAME_OVER_DAYS_Y, $0f, 1, 144  ; E
+    .byte GAME_OVER_DAYS_Y, $18, 1, 152  ; N
+	.byte GAME_OVER_DAYS_Y, $0b, 1, 160  ; A
+    .byte GAME_OVER_DAYS_Y, $1d, 1, 168  ; S
 
 game_over_hints:
-    .byte $00,$00,$00,$12,$1f,$18,$1e,$00,$0b,$18,$13,$17,$0b,$16,$1d,$00
-    .byte $1e,$19,$00,$11,$0f,$1e,$00,$17,$0f,$0b,$1e,$00,$2c,$00,$00,$00
+    .byte $00,$00,$00,$17,$0f,$0e,$21,$13,$19,$15,$00,$21,$20,$2a,$1c,$13 ;medziok zveris
+    .byte $1d,$00,$0e,$2a,$16,$00,$17,$2a,$1d,$19,$1d,$00,$2c,$00,$00,$00
 
-    .byte $00,$1d,$1e,$0b,$23,$00,$13,$18,$0e,$19,$19,$1c,$1d,$00,$0e,$1f
-    .byte $1c,$13,$18,$11,$00,$1e,$12,$0f,$00,$18,$13,$11,$12,$1e,$2c,$00
+    .byte $00,$00,$1a,$0b,$1d,$13,$16,$13,$15,$00,$20,$13,$0e,$1f,$14,$0f ;pasilik viduje nakti
+    .byte $00,$18,$0b,$15,$1e,$13,$0f,$1d,$00,$17,$0f,$1e,$1f,$2c,$00,$00
 
-    .byte $00,$00,$00,$00,$1f,$1d,$0f,$00,$23,$19,$1f,$1c,$00,$0d,$1c,$0b
-    .byte $10,$1e,$13,$18,$11,$00,$1e,$0b,$0c,$16,$0f,$00,$2c,$00,$00,$00
+    .byte $00,$17,$0f,$18,$13,$1f,$00,$29,$11,$0b,$17,$13,$18,$1e,$13,$29 ;gaminti daiktus
+    .byte $00,$15,$1f,$1c,$13,$0b,$00,$0e,$0b,$13,$15,$1e,$1f,$1d,$2c,$00
 
-    .byte $00,$00,$0e,$19,$18,$2a,$1e,$00,$0f,$0b,$1e,$00,$1c,$0b,$21,$00
-    .byte $17,$0f,$0b,$1e,$2c,$00,$0d,$19,$19,$15,$00,$13,$1e,$2c,$00,$00
+    .byte $00,$18,$0f,$20,$0b,$16,$11,$23,$15,$00,$21,$0b,$1c,$16,$13,$19 ;nevalgyk zalios mesos
+    .byte $1d,$00,$17,$2a,$1d,$19,$1d,$2c,$00,$15,$0f,$1a,$15,$2c,$00,$00
 
-    .byte $00,$00,$1f,$1d,$0f,$00,$1d,$1e,$13,$0d,$15,$1d,$00,$1e,$19,$00
-    .byte $17,$0b,$13,$18,$1e,$0b,$13,$18,$00,$10,$13,$1c,$0f,$2c,$00,$00
+    .byte $00,$18,$0b,$1f,$0e,$19,$15,$00,$17,$0b,$16,$15,$0b,$1d,$00,$15 ;naudok malkas
+    .byte $25,$1c,$0f,$18,$1e,$13,$00,$1a,$0f,$1b,$13,$1f,$13,$00,$2c,$00
 
-    .byte $00,$00,$11,$0b,$1e,$12,$0f,$1c,$00,$1d,$1f,$1a,$1a,$16,$13,$0f
-    .byte $1d,$00,$0c,$0f,$10,$19,$1c,$0f,$00,$0e,$0b,$1c,$15,$2c,$00,$00
+    .byte $00,$1d,$1f,$1c,$13,$18,$15,$00,$15,$0b,$1d,$00,$16,$0b,$1f,$15 ;kol ateis naktis
+    .byte $0f,$00,$13,$15,$13,$00,$18,$0b,$15,$1e,$13,$0f,$1d,$00,$2c,$00
 
 .include "data/CutsceneData.asm"
 ;--------- maps

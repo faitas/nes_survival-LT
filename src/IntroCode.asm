@@ -242,11 +242,11 @@ TitleTilesAnim:
     lda $2002
     lda #$22
     sta $2006
-    lda #$8B
+    lda #$89
     sta $2006
 
     lda #0
-    ldx #10
+    ldx #12
 @loop:
     sta $2007
     dex
@@ -259,7 +259,7 @@ TitleTilesAnim:
     lda $2002
     lda #$22
     sta $2006
-    lda #$8B
+    lda #$89
     sta $2006
 
     ldx #0
@@ -267,7 +267,7 @@ TitleTilesAnim:
     lda push_start, x
     sta $2007
     inx
-    cpx #10
+    cpx #12
     bcc @display_loop
 
 @exit:
@@ -1196,6 +1196,7 @@ UpdateGameOverSprites:
     lda game_over_sprites, y
     sta ZERO_SPRITE, y
     iny
+	
 
     dex
     bne @spriteLoop
@@ -1218,10 +1219,10 @@ UpdateGameOverSprites:
     lda Temp
     cmp #2 ; 2 or more days survived ?
     bcs @show_days
-    ldx #11 ;survived + day
+    ldx #17 ;survived + day
     jmp @spriteLoop2
 @show_days:
-    ldx #12 ;survived + days
+    ldx #18 ;survived + days
 
 
 @spriteLoop2:
